@@ -34,7 +34,7 @@ class StudioController extends Controller
         }
 
         $studio = Studio::create($request->all());
-        
+
         return response()->json($studio, 201);
     }
 
@@ -44,6 +44,7 @@ class StudioController extends Controller
     public function show(Studio $studio)
     {
         //
+        return response()->json($studio);
     }
 
     /**
