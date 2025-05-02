@@ -68,8 +68,11 @@ class GenreController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Genre $genre)
     {
         //
+        $genre->delete();
+
+        return response()->json(null, 204);
     }
 }
