@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Anime;
 use App\Models\Genre;
+use App\Models\Studio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -51,6 +52,7 @@ class AnimeController extends Controller
     {
         //
         $anime->load('genres');
+
         return response()->json($anime);
     }
 
@@ -74,6 +76,7 @@ class AnimeController extends Controller
         }
 
         $anime->update($request->all());
+
         return response()->json($anime);
 
     }
@@ -85,9 +88,13 @@ class AnimeController extends Controller
     {
         //
         $anime->delete();
+
         return response()->json(null, 204);
     }
 
+    /**
+     * 
+     */
     public function attachGenre(Request $request, Anime $anime)
     {
         $validator = Validator::make($request->all(), [
@@ -100,12 +107,46 @@ class AnimeController extends Controller
         }
 
         $anime->genres()->attach($request->input('genres'));
+
         return response()->json(['message' => 'Genres attached successfully to the anime'], 200);
     }
 
+    /**
+     * 
+     */
     public function detachGenre(Anime $anime, Genre $genre)
     {
         $anime->genres()->detach($genre->id);
+
         return response()->json(['message' => 'Genre detached successfully from the anime'], 200);
+    }
+
+    /**
+     * 
+     */
+    public function attachStudio(Request $request, Anime $anime)
+    {
+        $validator = Validator::make($request->all(), [
+            'studios' => 'required|array',
+            'studios.*' => 'integer|exists:studios,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $anime->studios()->attach($request->input('studios'));
+
+        return response()->json(['message' => 'Studios attached successfully to the anime'], 200);
+    }
+
+    /**
+     * 
+     */
+    public function detachStudio(Anime $anime, Studio $studio)
+    {
+        $anime->studios()->detach($studio->id);
+        
+        return response()->json(['message' => 'Studio detached successfully from the anime'], 200);
     }
 }
