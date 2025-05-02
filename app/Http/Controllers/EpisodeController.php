@@ -15,6 +15,9 @@ class EpisodeController extends Controller
     public function index(Anime $anime)
     {
         //
+        $episodes = $anime->episodes;
+        
+        return response()->json($episodes);
     }
 
     /**
