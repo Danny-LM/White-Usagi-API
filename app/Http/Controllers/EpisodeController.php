@@ -38,6 +38,7 @@ class EpisodeController extends Controller
         }
 
         $episode = $anime->episodes()->create($request->all());
+        
         return response()->json($episode, 201);
     }
 
@@ -76,7 +77,7 @@ class EpisodeController extends Controller
         }
 
         $episode->update($request->all());
-        
+
         return response()->json($episode);
     }
 
@@ -86,5 +87,11 @@ class EpisodeController extends Controller
     public function destroy(Anime $anime, Episode $episode)
     {
         //
+        if ($episode->anime_id !== $anime->id) {
+            return response()->json(['message' => 'Episode not found for this anime.'], 404);
+        }
+        $episode->delete();
+
+        return response()->json(null, 204);
     }
 }
