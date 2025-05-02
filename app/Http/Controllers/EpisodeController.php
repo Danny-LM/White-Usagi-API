@@ -16,7 +16,7 @@ class EpisodeController extends Controller
     {
         //
         $episodes = $anime->episodes;
-        
+
         return response()->json($episodes);
     }
 
@@ -26,6 +26,19 @@ class EpisodeController extends Controller
     public function store(Request $request, Anime $anime)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'title' => 'nullable|string|max:255',
+            'episode_number' => 'required|integer|min:1',
+            'duration_minutes' => 'nullable|integer|min:0',
+            'duration_seconds' => 'nullable|integer|min:0|max:59',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $episode = $anime->episodes()->create($request->all());
+        return response()->json($episode, 201);
     }
 
     /**
