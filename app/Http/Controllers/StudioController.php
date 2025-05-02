@@ -34,6 +34,7 @@ class StudioController extends Controller
         }
 
         $studio = Studio::create($request->all());
+        
         return response()->json($studio, 201);
     }
 
