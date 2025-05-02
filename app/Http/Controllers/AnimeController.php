@@ -50,6 +50,7 @@ class AnimeController extends Controller
     public function show(Anime $anime)
     {
         //
+        $anime->load('genres');
         return response()->json($anime);
     }
 
