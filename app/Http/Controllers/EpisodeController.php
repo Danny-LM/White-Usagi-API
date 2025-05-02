@@ -50,7 +50,7 @@ class EpisodeController extends Controller
         if ($episode->anime_id !== $anime->id) {
             return response()->json(['message' => 'Episode not found for this anime.'], 404);
         }
-        
+
         return response()->json($episode);
     }
 
@@ -60,6 +60,24 @@ class EpisodeController extends Controller
     public function update(Request $request, Anime $anime, Episode $episode)
     {
         //
+        if ($episode->anime_id !== $anime->id) {
+            return response()->json(['message' => 'Episode not found for this anime.'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'nullable|string|max:255',
+            'episode_number' => 'nullable|integer|min:1',
+            'duration_minutes' => 'nullable|integer|min:0',
+            'duration_seconds' => 'nullable|integer|min:0|max:59',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $episode->update($request->all());
+        
+        return response()->json($episode);
     }
 
     /**
