@@ -62,7 +62,7 @@ class StudioController extends Controller
         }
 
         $studio->update($request->all());
-        
+
         return response()->json($studio);
     }
 
@@ -72,5 +72,8 @@ class StudioController extends Controller
     public function destroy(Studio $studio)
     {
         //
+        $studio->delete();
+        
+        return response()->json(null, 204);
     }
 }
