@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AnimeController extends Controller
 {
@@ -12,6 +14,9 @@ class AnimeController extends Controller
     public function index()
     {
         //
+        $animes = Anime::all();
+
+        return response()->json($animes);
     }
 
     /**
