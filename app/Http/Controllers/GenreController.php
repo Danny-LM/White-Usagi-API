@@ -24,6 +24,16 @@ class GenreController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:genres',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $genre = Genre::create($request->all());
+        return response()->json($genre, 201);
     }
 
     /**
