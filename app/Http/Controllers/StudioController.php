@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Studio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class StudioController extends Controller
 {
@@ -25,7 +27,7 @@ class StudioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Studio $studio)
     {
         //
     }
@@ -33,7 +35,7 @@ class StudioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Studio $studio)
     {
         //
     }
@@ -41,7 +43,7 @@ class StudioController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Studio $studio)
     {
         //
     }
