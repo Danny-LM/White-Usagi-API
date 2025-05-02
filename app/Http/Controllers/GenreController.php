@@ -50,9 +50,19 @@ class GenreController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Genre $genre)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'name' => 'nullable|string|max:255|unique:genres,name,' . $genre->id,
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $genre->update($request->all());
+        return response()->json($genre);
     }
 
     /**
