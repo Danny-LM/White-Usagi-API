@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anime;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -84,5 +85,26 @@ class AnimeController extends Controller
         //
         $anime->delete();
         return response()->json(null, 204);
+    }
+
+    public function attachGenre(Request $request, Anime $anime)
+    {
+        $validator = Validator::make($request->all(), [
+            'genres' => 'required|array',
+            'genres.*' => 'integer|exists:genres,id', // Asegura que cada ID sea un entero y exista en la tabla 'genres'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $anime->genres()->attach($request->input('genres'));
+        return response()->json(['message' => 'Genres attached successfully to the anime'], 200);
+    }
+
+    public function detachGenre(Anime $anime, Genre $genre)
+    {
+        $anime->genres()->detach($genre->id);
+        return response()->json(['message' => 'Genre detached successfully from the anime'], 200);
     }
 }

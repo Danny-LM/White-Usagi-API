@@ -26,3 +26,6 @@ Route::apiResource('animes', AnimeController::class);
 Route::apiResource('genres', GenreController::class);
 Route::apiResource('studios', StudioController::class);
 Route::apiResource('animes/{anime}/episodes', EpisodeController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
+
+Route::post('/animes/{anime}/genres', [AnimeController::class, 'attachGenre']);
+Route::delete('/animes/{anime}/genres/{genre}', [AnimeController::class, 'detachGenre']);
