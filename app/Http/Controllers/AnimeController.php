@@ -25,6 +25,22 @@ class AnimeController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'release_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:release_date',
+            'season' => 'nullable|string|max:50',
+            'synopsis' => 'nullable|string',
+            'poster_url' => 'nullable|url|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $anime = Anime::create($request->all());
+
+        return response()->json($anime, 201);
     }
 
     /**
