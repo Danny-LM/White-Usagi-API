@@ -53,6 +53,16 @@ class StudioController extends Controller
     public function update(Request $request, Studio $studio)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'name' => 'nullable|string|max:255|unique:studios,name,' . $studio->id,
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $studio->update($request->all());
+        return response()->json($studio);
     }
 
     /**
