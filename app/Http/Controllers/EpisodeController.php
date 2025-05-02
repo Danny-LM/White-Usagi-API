@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anime;
+use App\Models\Episode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EpisodeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Anime $anime)
     {
         //
     }
@@ -17,7 +20,7 @@ class EpisodeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Anime $anime)
     {
         //
     }
@@ -25,7 +28,7 @@ class EpisodeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Anime $anime, Episode $episode)
     {
         //
     }
@@ -33,7 +36,7 @@ class EpisodeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Anime $anime, Episode $episode)
     {
         //
     }
@@ -41,7 +44,7 @@ class EpisodeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Anime $anime, Episode $episode)
     {
         //
     }
