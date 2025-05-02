@@ -25,6 +25,16 @@ class StudioController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:studios',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $studio = Studio::create($request->all());
+        return response()->json($studio, 201);
     }
 
     /**
