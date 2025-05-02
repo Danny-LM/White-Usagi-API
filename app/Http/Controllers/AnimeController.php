@@ -55,9 +55,25 @@ class AnimeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Anime $anime)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'title' => 'nullable|string|max:255',
+            'release_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:release_date',
+            'season' => 'nullable|string|max:50',
+            'synopsis' => 'nullable|string',
+            'poster_url' => 'nullable|url|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $anime->update($request->all());
+        return response()->json($anime);
+
     }
 
     /**
