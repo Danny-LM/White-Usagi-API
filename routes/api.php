@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AnimeController;
+use App\Http\Controllers\EpisodeController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\StudioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('animes', AnimeController::class);
+Route::apiResource('genres', GenreController::class);
+Route::apiResource('studios', StudioController::class);
+Route::apiResource('animes/{anime}/episodes', EpisodeController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
