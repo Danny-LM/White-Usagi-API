@@ -14,6 +14,9 @@ class StudioController extends Controller
     public function index()
     {
         //
+        $studios = Studio::all();
+
+        return response()->json($studios);
     }
 
     /**
