@@ -15,6 +15,7 @@ class GenreController extends Controller
     {
         //
         $genres = Genre::all();
+
         return response()->json($genres);
     }
 
@@ -33,15 +34,17 @@ class GenreController extends Controller
         }
 
         $genre = Genre::create($request->all());
+
         return response()->json($genre, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Genre $genre)
     {
         //
+        return response()->json($genre);
     }
 
     /**
