@@ -47,6 +47,11 @@ class EpisodeController extends Controller
     public function show(Anime $anime, Episode $episode)
     {
         //
+        if ($episode->anime_id !== $anime->id) {
+            return response()->json(['message' => 'Episode not found for this anime.'], 404);
+        }
+        
+        return response()->json($episode);
     }
 
     /**
