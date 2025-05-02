@@ -79,8 +79,10 @@ class AnimeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Anime $anime)
     {
         //
+        $anime->delete();
+        return response()->json(null, 204);
     }
 }
