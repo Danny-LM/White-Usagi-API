@@ -62,6 +62,7 @@ class StudioController extends Controller
         }
 
         $studio->update($request->all());
+        
         return response()->json($studio);
     }
 
