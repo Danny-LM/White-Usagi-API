@@ -18,7 +18,21 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:3|max:50',
             'email' => 'required|string|email|max:320|unique:users',
-            'password' => 'required|string|min:8|confirmed','regex:/^(?=.*[A-Z])(?=.*\d).+$/'
+            'password' => 'required|string|min:8|confirmed','regex:/^(?=.*[A-Z])(?=.*\d).+$/',
+        ], [
+            'name.required' => 'The name is required.',
+            'name.min' => 'The name must be at least :min characters long.',
+            'name.max' => 'The name must not exceed :max characters.',
+
+            'email.required' => 'The email address is required.',
+            'email.email' => 'The email address must be a valid email.',
+            'email.max' => 'The email address must not exceed :max characters.',
+            'email.unique' => 'This email address is already registered.',
+            
+            'password.required' => 'The password is required.',
+            'password.min' => 'The password must be at least :min characters long.',
+            'password.confirmed' => 'The password confirmation does not match.',
+            'password.regex' => 'The password must contain at least one uppercase letter and one number.',
         ]);
 
         if ($validator->fails()) {
@@ -42,7 +56,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|max:320|exists:users',
             'password' => 'required|string|min:8',
         ]);
 
