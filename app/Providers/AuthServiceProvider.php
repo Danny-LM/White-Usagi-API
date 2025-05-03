@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+Use App\Models\Anime;
+Use App\Policies\AnimePolicy;
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -14,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         //
+        Anime::class => AnimePolicy::class,
     ];
 
     /**
@@ -22,5 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        $this->registerPolicies();
     }
 }
