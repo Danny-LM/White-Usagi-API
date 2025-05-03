@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\GenreController;
@@ -17,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
