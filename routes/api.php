@@ -33,3 +33,4 @@ Route::delete('/animes/{anime}/genres/{genre}', [AnimeController::class, 'detach
 Route::post('/animes/{anime}/studios', [AnimeController::class, 'attachStudio']);
 Route::delete('/animes/{anime}/studios/{studio}', [AnimeController::class, 'detachStudio']);
 
+Route::apiResource('animes.episodes', EpisodeController::class, ['only' => ['index', 'store', 'show', 'update', 'destroy']]);

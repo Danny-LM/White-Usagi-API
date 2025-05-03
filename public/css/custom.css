@@ -1,0 +1,33 @@
+body {
+    font-family: sans-serif;
+    background-color: #121215;
+    color: #f8f9fa;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.jumbotron {
+    background-color: #1e1e21;
+    padding: 2rem;
+    border-radius: 0.3rem;
+}
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+hr.my-4 {
+    border-top-color: #3b3b3f;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
