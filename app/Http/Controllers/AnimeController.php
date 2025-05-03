@@ -22,6 +22,16 @@ class AnimeController extends Controller
     }
 
     /**
+     * 
+     */
+    public function indexWithEpisodeCount()
+    {
+        $animes = Anime::withCount('episodes')->get();
+        
+        return response()->json($animes);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
