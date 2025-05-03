@@ -11,29 +11,66 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     /**
-     * 
+     * Validation rules for registration.
+     *
+     * @var array
+     */
+    protected $registerRules = [
+        'name' => 'required|string|min:3|max:50|unique:users',
+        'email' => 'required|string|email|max:320|unique:users',
+        'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[A-Z])(?=.*\d).+$/'],
+    ];
+
+    /**
+     * Custom error messages for registration validation.
+     *
+     * @var array
+     */
+    protected $registerMessages = [
+        'name.required' => 'The username is required.',
+        'name.min' => 'The username must be at least :min characters long.',
+        'name.max' => 'The username must not exceed :max characters.',
+        'name.unique' => 'This username is already registered.',
+
+        'email.required' => 'The email address is required.',
+        'email.email' => 'The email address must be a valid email.',
+        'email.max' => 'The email address must not exceed :max characters.',
+        'email.unique' => 'This email address is already registered.',
+
+        'password.required' => 'The password is required.',
+        'password.min' => 'The password must be at least :min characters long.',
+        'password.confirmed' => 'The password confirmation does not match.',
+        'password.regex' => 'The password must contain at least one uppercase letter and one number.',
+    ];
+
+    /**
+     * Validation rules for login.
+     *
+     * @var array
+     */
+    protected $loginRules = [
+        'password' => 'required|string|min:8',
+    ];
+
+    /**
+     * Custom error messages for login validation.
+     *
+     * @var array
+     */
+    protected $loginMessages = [
+        'password.required' => 'The password is required.',
+        'password.min' => 'The password must be at least :min characters long.',
+    ];
+
+    /**
+     * Handle user registration request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:3|max:50',
-            'email' => 'required|string|email|max:320|unique:users',
-            'password' => 'required|string|min:8|confirmed','regex:/^(?=.*[A-Z])(?=.*\d).+$/',
-        ], [
-            'name.required' => 'The name is required.',
-            'name.min' => 'The name must be at least :min characters long.',
-            'name.max' => 'The name must not exceed :max characters.',
-
-            'email.required' => 'The email address is required.',
-            'email.email' => 'The email address must be a valid email.',
-            'email.max' => 'The email address must not exceed :max characters.',
-            'email.unique' => 'This email address is already registered.',
-            
-            'password.required' => 'The password is required.',
-            'password.min' => 'The password must be at least :min characters long.',
-            'password.confirmed' => 'The password confirmation does not match.',
-            'password.regex' => 'The password must contain at least one uppercase letter and one number.',
-        ]);
+        $validator = Validator::make($request->all(), $this->registerRules, $this->registerMessages);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -53,22 +90,42 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /**
+     * Handle user login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email|max:320|exists:users',
-            'password' => 'required|string|min:8',
-        ]);
+        $loginField = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $rules = array_merge([$loginField => 'required|string|max:320|exists:users,' . $loginField], $this->loginRules);
+        $messages = array_merge([
+            'email.required' => 'The email address or username is required.',
+            'email.email' => 'The email address must be a valid email.',
+            'email.max' => 'The email address or username must not exceed :max characters.',
+            'email.exists' => 'This email address or username is not registered.',
+            'name.required' => 'The email address or username is required.',
+            'name.max' => 'The email address or username must not exceed :max characters.',
+            'name.exists' => 'This email address or username is not registered.',
+        ], $this->loginMessages);
+
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        $credentials = [
+            $loginField => $request->input($loginField),
+            'password' => $request->input('password'),
+        ];
+
+        if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid login credentials'], 401);
         }
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        $user = User::where($loginField, $request->input($loginField))->firstOrFail();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
