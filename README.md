@@ -1,66 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# White Usagi API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Description
 
-## About Laravel
+The White Usagi API serves as the backend for managing a collection of anime-related data. It provides a structured and efficient way to access and manipulate information about anime titles, their associated genres, the studios that produce them, and individual episodes. This API is designed to be consumed by frontend applications to create rich and interactive user experiences for anime enthusiasts.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Installation
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+To get the White Usagi API running on your local machine or server, please follow these steps:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Danny-LM/White-Usagi-API.git
+    cd White-Usagi-API
+    ```
 
-## Learning Laravel
+2.  **Install Composer dependencies:**
+    Ensure you have [Composer](https://getcomposer.org/) installed globally on your system. Navigate to the project directory in your terminal and run:
+    ```bash
+    composer install
+    ```
+    This command will download and install all the necessary PHP packages and libraries, including the Laravel framework.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3.  **Copy the environment file:**
+    Laravel uses an `.env` file to manage environment-specific configuration. Copy the `.env.example` file to `.env`:
+    ```bash
+    cp .env.example .env
+    ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+4.  **Create a database:**
+    You will need to create a database for the White Usagi API using your preferred database management tool (I used MySQL if you prefer to use the same).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+5.  **Configure the `.env` file:**
+    Open the `.env` file in your text editor and configure your database connection details. **Ensure you replace the placeholder values with your actual database credentials (database name, username, password, host, port).** You may also need to adjust other environment variables as needed.
 
-## Laravel Sponsors
+    ```ini
+    APP_NAME=WhiteUsagiAPI
+    APP_ENV=local
+    APP_KEY=your-secret-key-here
+    APP_DEBUG=true
+    APP_URL=http://localhost
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=your_database_name
+    DB_USERNAME=your_database_username
+    DB_PASSWORD=your_database_password
+    ```
+    *(Remember to generate a new application key after installation using `php artisan key:generate`)*
 
-### Premium Partners
+6.  **Generate application key:**
+    Run the following Artisan command to generate a unique application key for your Laravel instance:
+    ```bash
+    php artisan key:generate
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+7.  **Run database migrations:**
+    To set up the database schema in the database you created, execute the migrations:
+    ```bash
+    php artisan migrate
+    ```
 
-## Contributing
+8.  **Serve the application:**
+    Start the Laravel development server using the Artisan command:
+    ```bash
+    php artisan serve
+    ```
+    This will typically make your API accessible at `http://127.0.0.1:8000`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Technologies
 
-## Code of Conduct
+The White Usagi API is built using the following primary technologies:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" height="30" alt="laravel logo" align="center" />  **Laravel** Version 10.48.29
+* <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" height="30" alt="php logo" align="center" /> **PHP** Version 8.1.10
+* <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/composer/composer-original.svg" height="30" alt="composer logo" align="center" />  **Composer** Version 2.4.1
+* <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" height="30" alt="mysql logo" align="center" />  **MySQL** Version 8.0.30
 
-## Security Vulnerabilities
+## Instructions for Use
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+The White Usagi API follows RESTful principles for its endpoints. Here's a general overview of how to interact with the API. Please refer to the specific API documentation (which you might generate later using tools like Swagger/OpenAPI) for detailed information on request parameters, response formats, and authentication (if implemented).
 
-## License
+**Base URL:** `http://127.0.0.1:8000/api` *(This might vary depending on your configuration)*
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Available Endpoints (Examples):**
+
+* **Anime:**
+    * `GET /api/animes`: Retrieve a list of all anime.
+    * `GET /api/animes/{id}`: Retrieve details for a specific anime.
+    * `POST /api/animes`: Create a new anime.
+    * `PUT /api/animes/{id}`: Update an existing anime.
+    * `DELETE /api/animes/{id}`: Delete a specific anime.
+* **Genres:**
+    * `GET /api/genres`: Retrieve a list of all genres.
+    * `GET /api/genres/{id}`: Retrieve details for a specific genre.
+    * `POST /api/genres`: Create a new genre.
+    * `PUT /api/genres/{id}`: Update an existing genre.
+    * `DELETE /api/genres/{id}`: Delete a specific genre.
+* **Studios:**
+    * `GET /api/studios`: Retrieve a list of all studios.
+    * `GET /api/studios/{id}`: Retrieve details for a specific studio.
+    * `POST /api/studios`: Create a new studio.
+    * `PUT /api/studios/{id}`: Update an existing studio.
+    * `DELETE /api/studios/{id}`: Delete a specific studio.
+* **Episodes:**
+    * `GET /api/animes/{anime_id}/episodes`: Retrieve a list of episodes for a specific anime.
+    * `GET /api/episodes/{id}`: Retrieve details for a specific episode.
+    * `POST /api/animes/{anime_id}/episodes`: Create a new episode for an anime.
+    * `PUT /api/episodes/{id}`: Update an existing episode.
+    * `DELETE /api/episodes/{id}`: Delete a specific episode.
+
+**Request Methods:**
+
+The API utilizes standard HTTP methods:
+
+* `GET`: To retrieve data.
+* `POST`: To create new resources.
+* `PUT` or `PATCH`: To update existing resources.
+* `DELETE`: To remove resources.
+
+**Response Format:**
+
+The API typically returns responses in JSON format. The structure of the JSON response will vary depending on the endpoint and the data being requested or manipulated.
+
+**Authentication:**
+
+*(At this stage, authentication details might be minimal or non-existent. Once you implement authentication, you would add those details here, explaining how to obtain API tokens or credentials and how to include them in your requests (e.g., through headers like `Authorization: Bearer <token>`)).*
+
+This README provides a foundational understanding of the White Usagi API. As the API evolves, more detailed documentation will be provided.
