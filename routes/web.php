@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/images/animes/{filename}', function ($filename) {
+    $path = public_path('images/animes/' . $filename);
+
+    if (file_exists($path)) {
+        return response()->file($path);
+    }
+
+    return abort(404);
+});
