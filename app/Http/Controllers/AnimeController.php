@@ -51,7 +51,7 @@ class AnimeController extends Controller
     public function show(Anime $anime)
     {
         //
-        $anime->load('genres');
+        $anime->load(['genres', 'studios']);
 
         return response()->json($anime);
     }
@@ -146,7 +146,7 @@ class AnimeController extends Controller
     public function detachStudio(Anime $anime, Studio $studio)
     {
         $anime->studios()->detach($studio->id);
-        
+
         return response()->json(['message' => 'Studio detached successfully from the anime'], 200);
     }
 }
