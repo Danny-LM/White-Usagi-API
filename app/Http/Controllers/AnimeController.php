@@ -37,6 +37,8 @@ class AnimeController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('create', Anime::class); // Verify if the user can create animes
+        
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'release_date' => 'nullable|date',
@@ -72,6 +74,8 @@ class AnimeController extends Controller
     public function update(Request $request, Anime $anime)
     {
         //
+        $this->authorize('update', Anime::class); // Verify if the user can update animes
+
         $validator = Validator::make($request->all(), [
             'title' => 'nullable|string|max:255',
             'release_date' => 'nullable|date',
@@ -97,6 +101,8 @@ class AnimeController extends Controller
     public function destroy(Anime $anime)
     {
         //
+        $this->authorize('delete', Anime::class); // Verify if the user can delete animes
+
         $anime->delete();
 
         return response()->json(null, 204);
