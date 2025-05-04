@@ -41,10 +41,8 @@ class AnimePolicy
      */
     public function create(User $user)
     {
-        // Righ now, we allow all authenticated users to create animes
-        return true;
-        // Future implement to verify is the user is admin
-        // return $user->role === 'admin';
+        // Just editors and admins can create animes
+        return $user->roles()->where('name', 'editor')->exists() || $user->roles()->where('name', 'admin')->exists();
     }
 
     /**
@@ -56,10 +54,8 @@ class AnimePolicy
      */
     public function update(User $user, Anime $anime)
     {
-        // Right now, we allow all authenticated users to update animes
-        return true;
-        // Future implement to verify is the user is admin
-        // return $user->id === $anime->user_id || $user->role === 'admin';
+        // Just editors and admins can edit animes
+        return $user->roles()->where('name', 'editor')->exists() || $user->roles()->where('name', 'admin')->exists();
     }
 
     /**
@@ -71,10 +67,8 @@ class AnimePolicy
      */
     public function delete(User $user, Anime $anime)
     {
-        // Right now, we allow all authenticated users to delete animes
-        return true;
-        // Future implement to verify is the user is admin
-        // return $user->id === $anime->user_id || $user->role === 'admin';
+        // Just editors and admins can delete animes
+        return $user->roles()->where('name', 'editor')->exists() || $user->roles()->where('name', 'admin')->exists();
     }
 
     /**
