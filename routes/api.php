@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\GenreController;
@@ -18,21 +19,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout/all', [AuthController::class, 'logoutAll']);
+
+    Route::get('/tokens', [AuthController::class, 'listTokens']);
+    Route::delete('/tokens/{token}', [AuthController::class, 'revokeToken']);//->middleware('can:revoke,token');
+
+    Route::apiResource('animes', AnimeController::class);
+    Route::apiResource('genres', GenreController::class);
+    Route::apiResource('studios', StudioController::class);
+    Route::apiResource('animes/{anime}/episodes', EpisodeController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
+
+    Route::post('/animes/{anime}/genres', [AnimeController::class, 'attachGenre']);
+    Route::delete('/animes/{anime}/genres/{genre}', [AnimeController::class, 'detachGenre']);
+
+    Route::post('/animes/{anime}/studios', [AnimeController::class, 'attachStudio']);
+    Route::delete('/animes/{anime}/studios/{studio}', [AnimeController::class, 'detachStudio']);
+
+    Route::apiResource('animes.episodes', EpisodeController::class, ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
+
+    Route::get('/animes-with-episode-count', [AnimeController::class, 'indexWithEpisodeCount']);
 });
-
-Route::apiResource('animes', AnimeController::class);
-Route::apiResource('genres', GenreController::class);
-Route::apiResource('studios', StudioController::class);
-Route::apiResource('animes/{anime}/episodes', EpisodeController::class)->only(['index', 'show', 'store', 'update', 'destroy']);
-
-Route::post('/animes/{anime}/genres', [AnimeController::class, 'attachGenre']);
-Route::delete('/animes/{anime}/genres/{genre}', [AnimeController::class, 'detachGenre']);
-
-Route::post('/animes/{anime}/studios', [AnimeController::class, 'attachStudio']);
-Route::delete('/animes/{anime}/studios/{studio}', [AnimeController::class, 'detachStudio']);
-
-Route::apiResource('animes.episodes', EpisodeController::class, ['only' => ['index', 'store', 'show', 'update', 'destroy']]);
-
-Route::get('/animes-with-episode-count', [AnimeController::class, 'indexWithEpisodeCount']);
