@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -140,5 +141,25 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json(['message' => 'Logged out successfully']);
+    }
+
+    public function logoutAll(Request $request)
+    {
+        $request->user()->deleteTokens();
+
+        return response()->json(['message' => 'Logged out from all devices successfully']);
+    }
+
+    public function revokeToken(Request $request, string $token_id)
+    {
+        $token = PersonalAccessToken::find($token_id);
+
+        if (!$token || $token->tokenable_id !== $request->user()->id) {
+            return response()->json(['message' => 'Token not found'], 404);
+        }
+
+        $token->delete();
+
+        return response()->json(['message' => 'Token revoked successfully']);
     }
 }

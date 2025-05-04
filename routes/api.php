@@ -28,6 +28,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout/all', [AuthController::class, 'logoutAll']);
+
+    Route::delete('/tokens/{token_id}', [AuthController::class, 'revokeToken'])->middleware('can:revoke,token');
 
     Route::apiResource('animes', AnimeController::class);
     Route::apiResource('genres', GenreController::class);
