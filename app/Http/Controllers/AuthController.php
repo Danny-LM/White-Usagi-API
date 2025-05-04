@@ -43,7 +43,7 @@ class AuthController extends Controller
         'password.confirmed' => 'The password confirmation does not match.',
         'password.regex' => 'The password must contain at least one uppercase letter and one number.',
     ];
-
+    
     /**
      * Validation rules for login.
      *
@@ -136,6 +136,9 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * 
+     */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -143,6 +146,9 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
     }
 
+    /**
+     * 
+     */
     public function logoutAll(Request $request)
     {
         $request->user()->deleteTokens();
@@ -150,6 +156,19 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out from all devices successfully']);
     }
 
+    /**
+     * 
+     */
+    public function listTokens(Request $request)
+    {
+        $tokens = $request->user()->tokens()->get(['id', 'name', 'created_at', 'last_used_at']);
+
+        return response()->json(['tokens' => $tokens]);
+    }
+
+    /**
+     * 
+     */
     public function revokeToken(Request $request, string $token_id)
     {
         $token = PersonalAccessToken::find($token_id);
