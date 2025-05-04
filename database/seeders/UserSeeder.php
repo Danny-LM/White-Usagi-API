@@ -40,8 +40,5 @@ class UserSeeder extends Seeder
             'password' => Hash::make('$WhiteUsagiViewer#1!'),
         ]);
         $viewerUser->roles()->attach($viewerRole);
-
-
-
     }
 }
