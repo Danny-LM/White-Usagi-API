@@ -47,7 +47,7 @@ class StudioPolicy
      */
     public function delete(User $user, Studio $studio)
     {
-        return $user->roles()->where('name', 'admin')->exists(); // Maybe only admins can delete studios
+        return $user->roles()->where('name', 'editor')->exists() || $user->roles()->where('name', 'admin')->exists();
     }
 
     /**
