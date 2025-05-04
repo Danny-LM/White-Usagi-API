@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 Use App\Models\Anime;
+use App\Models\Genre;
+use App\Models\Studio;
 Use App\Policies\AnimePolicy;
+use App\Policies\GenrePolicy;
+use App\Policies\StudioPolicy;
 use App\Policies\TokenPolicy;
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -19,6 +23,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         //
         Anime::class => AnimePolicy::class,
+        Genre::class => GenrePolicy::class,
+        Studio::class => StudioPolicy::class,
         PersonalAccessToken::class => TokenPolicy::class,
     ];
 
