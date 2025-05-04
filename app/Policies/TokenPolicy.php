@@ -10,6 +10,9 @@ class TokenPolicy
 {
     use HandlesAuthorization;
 
+    /**
+     * 
+     */
     public function revokeToken(User $user, PersonalAccessToken $token)
     {
         return $token->tokenable_id === $user->id;

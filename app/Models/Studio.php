@@ -10,10 +10,16 @@ class Studio extends Model
 {
     use HasFactory;
 
+    /**
+     * 
+     */
     protected $fillable = [
         'name',
     ];
 
+    /**
+     * 
+     */
     public function animes(): BelongsToMany
     {
         return $this->belongsToMany(Anime::class, 'anime_studio');
