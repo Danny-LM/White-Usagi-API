@@ -47,7 +47,7 @@ class GenrePolicy
      */
     public function delete(User $user, Genre $genre)
     {
-        return $user->roles()->where('name', 'admin')->exists(); // Maybe only admins can delete genres
+        return $user->roles()->where('name', 'editor')->exists() || $user->roles()->where('name', 'admin')->exists();
     }
 
     /**
