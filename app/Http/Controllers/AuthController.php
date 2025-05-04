@@ -169,12 +169,10 @@ class AuthController extends Controller
     /**
      * 
      */
-    public function revokeToken(Request $request, string $token_id)
+    public function revokeToken(Request $request, PersonalAccessToken $token)
     {
-        $token = PersonalAccessToken::find($token_id);
-
-        if (!$token || $token->tokenable_id !== $request->user()->id) {
-            return response()->json(['message' => 'Token not found'], 404);
+        if ($token->tokenable_id !== $request->user()->id) {
+            return response()->json(['message' => 'This token does not belong to you'], 403);
         }
 
         $token->delete();
