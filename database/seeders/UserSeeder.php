@@ -21,21 +21,21 @@ class UserSeeder extends Seeder
         $viewerRole = Role::where('name', 'viewer')->first();
 
         $adminUser = User::create([
-            'name' => 'admin',
+            'name' => 'admin1',
             'email' => 'admin@example.com',
             'password' => Hash::make('$WhiteUsagiAdmin#1!'),
         ]);
         $adminUser->roles()->attach($adminRole);
 
         $editorUser = User::create([
-            'name' => 'Editor User',
+            'name' => 'editor1',
             'email' => 'editor@example.com',
             'password' => Hash::make('$WhiteUsagiEditor#1!'),
         ]);
         $editorUser->roles()->attach($editorRole);
 
         $viewerUser = User::create([
-            'name' => 'Viewer User',
+            'name' => 'viewer1',
             'email' => 'viewer@example.com',
             'password' => Hash::make('$WhiteUsagiViewer#1!'),
         ]);
