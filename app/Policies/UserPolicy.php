@@ -39,7 +39,7 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $authUser, User $userToUpdate): bool
+    public function updateProfile(User $authUser, User $userToUpdate): bool
     {
         //
         return $authUser->id === $userToUpdate->id;

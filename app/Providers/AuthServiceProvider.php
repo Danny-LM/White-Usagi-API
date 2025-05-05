@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use App\Models\User;
-Use App\Models\Anime;
+use App\Models\Anime;
 use App\Models\Genre;
 use App\Models\Studio;
 use App\Policies\UserPolicy;
-Use App\Policies\AnimePolicy;
+use App\Policies\AnimePolicy;
 use App\Policies\GenrePolicy;
 use App\Policies\StudioPolicy;
 use App\Policies\TokenPolicy;

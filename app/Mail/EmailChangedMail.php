@@ -8,17 +8,27 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 
 class EmailChangedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $user;
+    public $oldEmail;
+
     /**
      * Create a new message instance.
+     * 
+     * @param  \App\Models\User $user
+     * @param  string $oldEmail
+     * @return void
      */
-    public function __construct()
+    public function __construct(User $user, string $oldEmail)
     {
         //
+        $this->user = $user;
+        $this->oldEmail = $oldEmail;
     }
 
     /**
@@ -27,7 +37,7 @@ class EmailChangedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Email Changed Mail',
+            subject: 'Email Change Confirmation',
         );
     }
 
@@ -37,7 +47,11 @@ class EmailChangedMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            markdown: 'emails.email-changed',
+            with: [
+                'user' => $this->user,
+                'old_email' => $this->oldEmail,
+            ],
         );
     }
 
