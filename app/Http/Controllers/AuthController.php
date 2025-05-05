@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Mail\ResetPasswordMail;
+use App\Mail\PasswordChangedMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -235,10 +236,16 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid password reset token.'], 422);
         }
 
-        $user = User::where('email', $request->email)->firstOrFail();
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
 
         $user->password = Hash::make($request->password);
         $user->save();
+
+        Mail::to($user->email)->send(new PasswordChangedMail($user));
 
         DB::table('password_reset_tokens')->where('email', $request->email)->delete();
 

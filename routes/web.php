@@ -1,8 +1,5 @@
 <?php
 
-// use App\Mail\ResetPasswordMail;
-// use App\Models\User;
-// use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,14 +27,3 @@ Route::get('/images/animes/{filename}', function ($filename) {
     return abort(404);
 });
 
-// Route::get('/email/reset-password/preview', function () {
-//     $token = Str::random(60);
-
-//     $user = new User();
-//     $user->email = 'test@example.com';
-
-//     $mailable = new ResetPasswordMail($token);
-//     $mailable->with('notifiable', $user);
-
-//     return $mailable->render();
-// });
