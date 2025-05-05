@@ -83,6 +83,8 @@ class UserProfileController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
+        $user->tokens()->delete();
+
         try {
             Mail::to($user->email)->send(new PasswordChangedMail($user));
         } catch (Exception $e) {
