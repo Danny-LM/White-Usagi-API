@@ -2,7 +2,7 @@
 
 ## Description
 
-The White Usagi API serves as the backend for managing a collection of anime-related data. It provides a structured and efficient way to access and manipulate information about anime titles, their associated genres, the studios that produce them, and individual episodes. This API is designed to be consumed by frontend applications to create rich and interactive user experiences for anime enthusiasts.
+The White Usagi API serves as the backend for managing a collection of anime-related data. It provides a structured and efficient way to access and manipulate information about anime titles, their associated genres, the studios that produce them, individual episodes, and user accounts. This API is designed to be consumed by frontend applications to create rich and interactive user experiences for anime enthusiasts. It also includes user authentication and profile management functionalities.
 
 ## Installation
 
@@ -34,7 +34,7 @@ To get the White Usagi API running on your local machine or server, please follo
     Open the `.env` file in your text editor and configure your database connection details. **Ensure you replace the placeholder values with your actual database credentials (database name, username, password, host, port).** You may also need to adjust other environment variables as needed.
 
     ```ini
-    APP_NAME=WhiteUsagiAPI
+    APP_NAME='White Usagi'
     APP_ENV=local
     APP_KEY=your-secret-key-here
     APP_DEBUG=true
@@ -46,6 +46,15 @@ To get the White Usagi API running on your local machine or server, please follo
     DB_DATABASE=your_database_name
     DB_USERNAME=your_database_username
     DB_PASSWORD=your_database_password
+
+    MAIL_MAILER=your-mail-mailer-here
+    MAIL_HOST=your-mail-host-here
+    MAIL_PORT=your-mail-port-here
+    MAIL_USERNAME=your-mail-username-here
+    MAIL_PASSWORD=your-mail-password-here
+    MAIL_ENCRYPTION=your-mail-encryption-here
+    MAIL_FROM_ADDRESS=your-mail-address-here
+    MAIL_FROM_NAME="${APP_NAME}"
     ```
     *(Remember to generate a new application key after installation using `php artisan key:generate`)*
 
@@ -61,7 +70,13 @@ To get the White Usagi API running on your local machine or server, please follo
     php artisan migrate
     ```
 
-8.  **Serve the application:**
+8.  **Run database seeders:**
+    To populate the database with initial data (e.g., some sample genres or studios), you should run the database seeders:
+    ```bash
+    php artisan db:seed
+    ```
+
+9.  **Serve the application:**
     Start the Laravel development server using the Artisan command:
     ```bash
     php artisan serve
@@ -72,7 +87,7 @@ To get the White Usagi API running on your local machine or server, please follo
 
 The White Usagi API is built using the following primary technologies:
 
-* <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" height="30" alt="laravel logo" align="center" />  **Laravel** Version 10.48.29
+* <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg" height="30" alt="laravel logo" align="center" />  **Laravel** Version 10.48.29 and the library and the library **Laravel Sanctum:** Version 3.3.3
 * <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" height="30" alt="php logo" align="center" /> **PHP** Version 8.1.10
 * <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/composer/composer-original.svg" height="30" alt="composer logo" align="center" />  **Composer** Version 2.4.1
 * <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" height="30" alt="mysql logo" align="center" />  **MySQL** Version 8.0.30
@@ -83,7 +98,22 @@ The White Usagi API follows RESTful principles for its endpoints. Here's a gener
 
 **Base URL:** `http://127.0.0.1:8000/api` *(This might vary depending on your configuration)*
 
-**Available Endpoints (Examples):**
+**Authentication Endpoints:**
+* `POST /api/register`: Register a new user. Requires `name`, `email`, `password`, and `password_confirmation`. Returns an `access_token`.
+* `POST /api/login`: Log in an existing user. Requires `email` and `password`. Returns an `access_token`.
+* `POST /api/logout` (protected): Log out the currently authenticated user (requires a valid `access_token`).
+* `POST /api/logout/all` (protected): Log out the currently authenticated user from all devices (requires a valid `access_token`).
+* `POST /api/forgot-password`: Send a password reset link to the provided email. Requires `email`.
+* `POST /api/reset-password`: Reset the user's password using a token received via email. Requires `token`, `email`, `password`, and `password_confirmation`.
+
+**User Profile Management Endpoints (Protected - Requires a valid `access_token` in the `Authorization` header as `Bearer <token>`):**
+
+* `GET /api/user`: Get the details of the currently authenticated user.
+* `PUT /api/user/profile`: Update the authenticated user's profile information (e.g., `name`). Requires the new information in the request body.
+* `PUT /api/user/profile/email`: Update the authenticated user's email address. Requires the new `email` in the request body. An email verification process might be triggered.
+* `PUT /api/user/profile/password`: Update the authenticated user's password. Requires `current_password`, `password`, and `password_confirmation` in the request body.
+
+**Other Available Endpoints (Examples):**
 
 * **Anime:**
     * `GET /api/animes`: Retrieve a list of all anime.
@@ -125,6 +155,4 @@ The API typically returns responses in JSON format. The structure of the JSON re
 
 **Authentication:**
 
-*(At this stage, authentication details might be minimal or non-existent. Once you implement authentication, you would add those details here, explaining how to obtain API tokens or credentials and how to include them in your requests (e.g., through headers like `Authorization: Bearer <token>`)).*
-
-This README provides a foundational understanding of the White Usagi API. As the API evolves, more detailed documentation will be provided.
+This API uses **Laravel Sanctum** for authentication. To access protected routes, you need to obtain an `access_token` by registering a new user via the `/api/register` endpoint or logging in an existing user via the `/api/login` endpoint. Once you have an `access_token`, you must include it in the `Authorization` header of your subsequent requests to protected routes. The header should be formatted as `Bearer <your_access_token>`.
