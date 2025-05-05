@@ -5,6 +5,7 @@ use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\StudioController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,8 +21,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'api'], function () {
+    Route::post('/test-api', function (Request $request) {
+        return response()->json(['message' => 'API test works!'], 200);
+    });
+
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.email');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', function (Request $request) {
@@ -33,6 +41,10 @@ Route::group(['middleware' => 'api'], function () {
 
         Route::get('/tokens', [AuthController::class, 'listTokens']);
         Route::delete('/tokens/{token}', [AuthController::class, 'revokeToken']);//->middleware('can:revoke,token');
+
+        Route::put('/user/profile', [UserProfileController::class, 'updateProfile']);
+        Route::put('/user/profile/email', [UserProfileController::class, 'updateEmail']);
+        Route::put('/user/profile/password', [UserProfileController::class, 'updatePassword']);
 
         Route::apiResource('animes', AnimeController::class);
         Route::apiResource('genres', GenreController::class);
