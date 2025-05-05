@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'api'], function () {
+    Route::post('/test-api', function (Request $request) {
+        return response()->json(['message' => 'API test works!'], 200);
+    });
+
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 

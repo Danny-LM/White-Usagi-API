@@ -8,12 +8,14 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 
 class ResetPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $token;
+    public $user;
 
     /**
      * Create a new message instance.
@@ -21,10 +23,11 @@ class ResetPasswordMail extends Mailable
      * @param string $token
      * @return void
      */
-    public function __construct(string $token)
+    public function __construct(string $token, User $user)
     {
         //
         $this->token = $token;
+        $this->user = $user;
     }
 
     /**
@@ -46,6 +49,7 @@ class ResetPasswordMail extends Mailable
             markdown: 'emails.reset-password',
             with: [
                 'token' => $this->token,
+                'user' => $this->user,
             ],
         );
     }
