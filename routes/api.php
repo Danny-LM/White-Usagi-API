@@ -5,6 +5,7 @@ use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\StudioController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,10 @@ Route::group(['middleware' => 'api'], function () {
 
         Route::get('/tokens', [AuthController::class, 'listTokens']);
         Route::delete('/tokens/{token}', [AuthController::class, 'revokeToken']);//->middleware('can:revoke,token');
+
+        Route::put('/user/profile', [UserProfileController::class, 'updateProfile']);
+        Route::put('/user/profile/email', [UserProfileController::class, 'updateEmail']);
+        Route::put('/user/profile/password', [UserProfileController::class, 'updatePassword']);
 
         Route::apiResource('animes', AnimeController::class);
         Route::apiResource('genres', GenreController::class);
