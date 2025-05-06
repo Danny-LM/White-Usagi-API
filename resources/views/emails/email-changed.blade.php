@@ -34,18 +34,10 @@
 <div class="email-body">
     <h1 class="email-h1">Email Successfully Changed</h1>
     <p class="email-paragraph">
-        Hello {{ $user->name }},
-    </p>
-    <p class="email-paragraph">
-        We inform you that the email address associated with your account has been successfully changed.
-    </p>
-    <p class="email-paragraph">
-        Your previous email address was: {{ $oldEmail }}
-    </p>
-    <p class="email-paragraph">
-        Your new email address is: {{ $user->email }}
-    </p>
-    <p class="email-paragraph">
+        Hello {{ $user->name }},<br>
+        We inform you that the email address associated with your account has been successfully changed.<br>
+        Your previous email address was: {{ $oldEmail }}<br>
+        Your new email address is: {{ $user->email }}<br>
         If you did not make this change, please contact our support team immediately.
     </p>
 </div>
