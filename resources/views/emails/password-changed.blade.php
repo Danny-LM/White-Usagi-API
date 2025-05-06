@@ -34,12 +34,8 @@
 <div class="email-body">
     <h1 class="email-h1">Password Successfully Changed</h1>
     <p class="email-paragraph">
-        Hello {{ $user->name }},
-    </p>
-    <p class="email-paragraph">
-        We inform you that the password for your account has been successfully changed.
-    </p>
-    <p class="email-paragraph">
+        Hello {{ $user->name }},<br>
+        We inform you that the password for your account has been successfully changed.<br>
         If you were not the one who made this change, please contact our support team immediately.
     </p>
 </div>
