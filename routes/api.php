@@ -6,6 +6,7 @@ use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\StudioController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\SocialAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,9 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.email');
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
+    Route::get('/login/google', [SocialAuthController::class, 'redirectToGoogle']);
+    Route::get('/login/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', function (Request $request) {
