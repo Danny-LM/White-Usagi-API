@@ -80,17 +80,23 @@ class UserProfileController extends Controller
             return response()->json(['message' => 'New password must be different from current.'], 422);
         }
 
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        $user->tokens()->delete();
-
         try {
-            Mail::to($user->email)->send(new PasswordChangedMail($user));
-        } catch (Exception $e) {
-            Log::error("Password change email failed: {$e->getMessage()}");
+            $user->password = Hash::make($request->password);
+            $user->save();
+    
+            $user->tokens()->delete();
+    
+            try {
+                Mail::to($user->email)->send(new PasswordChangedMail($user));
+            } catch (Exception $e) {
+                Log::error("Password change email failed: {$e->getMessage()}");
+            }
+    
+            return response()->json(['message' => 'Password updated successfully.'], 200);
+    
+        } catch (\Exception $e) {
+            Log::error("Error updating password for user {$user->id}: {$e->getMessage()}");
+            return response()->json(['message' => 'Failed to update password. Please try again later.'], 500);
         }
-
-        return response()->json(['message' => 'Password updated successfully.'], 200);
     }
 }
