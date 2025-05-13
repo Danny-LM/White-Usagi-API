@@ -7,6 +7,7 @@ use App\Http\Controllers\GenreController;
 use App\Http\Controllers\StudioController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\SocialAuthController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,8 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::get('/login/google', [SocialAuthController::class, 'redirectToGoogle']);
     Route::get('/login/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
+    Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', function (Request $request) {
