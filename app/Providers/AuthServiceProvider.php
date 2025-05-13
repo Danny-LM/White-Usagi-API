@@ -2,15 +2,18 @@
 
 namespace App\Providers;
 
-use App\Models\User;
 use App\Models\Anime;
+use App\Models\Episode;
 use App\Models\Genre;
 use App\Models\Studio;
-use App\Policies\UserPolicy;
+use App\Models\User;
 use App\Policies\AnimePolicy;
+use App\Policies\EpisodePolicy;
 use App\Policies\GenrePolicy;
 use App\Policies\StudioPolicy;
 use App\Policies\TokenPolicy;
+use App\Policies\UserPolicy;
+use Doctrine\Common\Lexer\Token;
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -24,10 +27,12 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         //
-        User::class => UserPolicy::class,
         Anime::class => AnimePolicy::class,
+        Episode::class => EpisodePolicy::class,
         Genre::class => GenrePolicy::class,
         Studio::class => StudioPolicy::class,
+        Token::class => TokenPolicy::class,
+        User::class => UserPolicy::class,
         PersonalAccessToken::class => TokenPolicy::class,
     ];
 
