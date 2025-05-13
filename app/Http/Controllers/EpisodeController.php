@@ -26,6 +26,8 @@ class EpisodeController extends Controller
     public function store(Request $request, Anime $anime)
     {
         //
+        $this->authorize('create', Episode::class);
+
         $validator = Validator::make($request->all(), [
             'title' => 'nullable|string|max:255',
             'episode_number' => 'required|integer|min:1',
@@ -61,6 +63,8 @@ class EpisodeController extends Controller
     public function update(Request $request, Anime $anime, Episode $episode)
     {
         //
+        $this->authorize('update', Episode::class);
+
         if ($episode->anime_id !== $anime->id) {
             return response()->json(['message' => 'Episode not found for this anime.'], 404);
         }
@@ -87,6 +91,8 @@ class EpisodeController extends Controller
     public function destroy(Anime $anime, Episode $episode)
     {
         //
+        $this->authorize('delete', Episode::class);
+
         if ($episode->anime_id !== $anime->id) {
             return response()->json(['message' => 'Episode not found for this anime.'], 404);
         }
