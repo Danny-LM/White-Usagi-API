@@ -10,6 +10,9 @@ class Episode extends Model
 {
     use HasFactory;
 
+    /**
+     * 
+     */
     protected $fillable = [
         'title',
         'episode_number',
@@ -18,6 +21,9 @@ class Episode extends Model
         'anime_id',
     ];
 
+    /**
+     * 
+     */
     public function anime(): BelongsTo
     {
         return $this->belongsTo(Anime::class);

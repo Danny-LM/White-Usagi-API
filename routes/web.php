@@ -26,3 +26,4 @@ Route::get('/images/animes/{filename}', function ($filename) {
 
     return abort(404);
 });
+
